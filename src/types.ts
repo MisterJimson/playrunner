@@ -1,3 +1,5 @@
+//TODO May be able to pull this out of the Playwright Locator type with some type magic
+// instead of having to copy it here
 export interface Locator {
   role:
     | "alert"

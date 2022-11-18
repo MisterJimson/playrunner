@@ -2,7 +2,6 @@ import { expect } from "@playwright/test";
 import { chromium } from "playwright";
 import fs from "fs";
 import { clickOn, expectTitle, goTo, onLocator } from "./commands";
-import { OnLocator, ClickOn, HasLocator } from "./types";
 
 import { Command } from "commander";
 import figlet from "figlet";
