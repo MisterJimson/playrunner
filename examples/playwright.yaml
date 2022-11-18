@@ -1,4 +1,4 @@
-# https://playwright.dev/docs/writing-tests#the-example-test
+# This flow recreates the example test from the Playwright docs https://playwright.dev/docs/writing-tests#the-example-test
 flow:
   goTo: "https://playwright.dev/"
   expectTitle: Playwright
