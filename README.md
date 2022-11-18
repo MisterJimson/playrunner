@@ -14,20 +14,19 @@ Try `npm run dev -- examples/playwright.yaml` to run the example flow.
 ```yaml
 # This flow recreates the example test from the Playwright docs https://playwright.dev/docs/writing-tests#the-example-test
 flow:
-  goTo: "https://playwright.dev/"
-  expectTitle: Playwright
-  onLocator:
+  goTo: "https://playwright.dev/"   # Navigate to a URL
+  expectTitle: Playwright           # Check the page title, supports RegEx
+  onLocator:                        # Locate an element
     role: link
     name: Get started
-    expectAttribute:
+    expectAttribute:                # Assert an attribute on the located element
       name: href
       value: /docs/intro
-  clickOn:
+  clickOn:                          # Locate and click on an element
     locator:
       role: link
       name: Get started
-expectUrl: .*intro
-
+expectUrl: .*intro                  # Check the current URL, supports RegEx
 ```
 
 ## Notes
