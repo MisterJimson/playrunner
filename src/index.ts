@@ -37,19 +37,19 @@ program
     // @ts-ignore TODO
     for (const [key, value] of Object.entries(data.flow)) {
       if (key === "goTo") {
-        goTo(page, value);
+        await goTo(page, value);
       }
 
       if (key === "expectTitle") {
-        expectTitle(page, value);
+        await expectTitle(page, value);
       }
 
       if (key === "onLocator") {
-        onLocator(page, value);
+        await onLocator(page, value);
       }
 
       if (key === "clickOn") {
-        clickOn(page, value);
+        await clickOn(page, value);
       }
 
       if (key === "expectUrl") {
