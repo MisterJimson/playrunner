@@ -1,11 +1,12 @@
 import { expect } from "@playwright/test";
 import { chromium } from "playwright";
 import fs from "fs";
-import { expectTitle, goTo } from "./commands";
+import { clickOn, expectTitle, goTo, onLocator } from "./commands";
+import { OnLocator, ClickOn, HasLocator } from "./types";
 
-const { Command } = require("commander");
-const figlet = require("figlet");
-const yaml = require("js-yaml");
+import { Command } from "commander";
+import figlet from "figlet";
+import yaml from "js-yaml";
 
 const program = new Command();
 
@@ -33,6 +34,7 @@ program
     const page = await browser.newPage();
 
     // Loop through the flow and execute the commands
+    // @ts-ignore TODO
     for (const [key, value] of Object.entries(data.flow)) {
       if (key === "goTo") {
         goTo(page, value);
@@ -43,176 +45,19 @@ program
       }
 
       if (key === "onLocator") {
-        const locatorDataObject = value as OnLocator;
-        const locatorRole = locatorDataObject.role;
-        const locatorRoleName = locatorDataObject.name;
-
-        // Needs to be way more general use
-        const locator = page.getByRole(locatorRole, { name: locatorRoleName });
-
-        if (locatorDataObject.expectAttribute) {
-          await expect(locator).toHaveAttribute(
-            locatorDataObject.expectAttribute.name,
-            locatorDataObject.expectAttribute.value
-          );
-        }
+        onLocator(page, value);
       }
 
       if (key === "clickOn") {
-        const clickOnDataObject = value as ClickOn;
-
-        if (typeof value === "string") {
-          await page.click(value);
-        } else {
-          const locatorDataObject = (value as HasLocator).locator;
-          const locatorRole = locatorDataObject.role;
-          const locatorRoleName = locatorDataObject.name;
-
-          const locator = page.getByRole(locatorRole, {
-            name: locatorRoleName,
-          });
-          await locator.click();
-        }
+        clickOn(page, value);
       }
 
       if (key === "expectUrl") {
         await expect(page).toHaveURL(RegExp(value as string));
       }
     }
-
     await browser.close();
-  });
-
-program
-  .command("demo")
-  .description("Run a flow")
-  .action(async (str: string, options: Record<string, string>) => {
-    const browser = await chromium.launch({
-      headless: false,
-    }); // Or 'firefox' or 'webkit'.
-
-    const page = await browser.newPage();
-
-    await page.goto("https://playwright.dev/");
-
-    // Expect a title "to contain" a substring.
-    await expect(page).toHaveTitle(RegExp("Playwright"));
-
-    // create a locator
-    const getStarted = page.getByRole("link", { name: "Get started" });
-
-    // Expect an attribute "to be strictly equal" to the value.
-    await expect(getStarted).toHaveAttribute("href", "/docs/intro");
-
-    // Click the get started link.
-    await getStarted.click();
-
-    // Expects the URL to contain intro.
-    await expect(page).toHaveURL(RegExp(".*intro"));
-
-    await browser.close();
+    console.log("Flow successfully completed");
   });
 
 program.parse();
-
-interface Locator {
-  role:
-    | "alert"
-    | "alertdialog"
-    | "application"
-    | "article"
-    | "banner"
-    | "blockquote"
-    | "button"
-    | "caption"
-    | "cell"
-    | "checkbox"
-    | "code"
-    | "columnheader"
-    | "combobox"
-    | "complementary"
-    | "contentinfo"
-    | "definition"
-    | "deletion"
-    | "dialog"
-    | "directory"
-    | "document"
-    | "emphasis"
-    | "feed"
-    | "figure"
-    | "form"
-    | "generic"
-    | "grid"
-    | "gridcell"
-    | "group"
-    | "heading"
-    | "img"
-    | "insertion"
-    | "link"
-    | "list"
-    | "listbox"
-    | "listitem"
-    | "log"
-    | "main"
-    | "marquee"
-    | "math"
-    | "meter"
-    | "menu"
-    | "menubar"
-    | "menuitem"
-    | "menuitemcheckbox"
-    | "menuitemradio"
-    | "navigation"
-    | "none"
-    | "note"
-    | "option"
-    | "paragraph"
-    | "presentation"
-    | "progressbar"
-    | "radio"
-    | "radiogroup"
-    | "region"
-    | "row"
-    | "rowgroup"
-    | "rowheader"
-    | "scrollbar"
-    | "search"
-    | "searchbox"
-    | "separator"
-    | "slider"
-    | "spinbutton"
-    | "status"
-    | "strong"
-    | "subscript"
-    | "superscript"
-    | "switch"
-    | "tab"
-    | "table"
-    | "tablist"
-    | "tabpanel"
-    | "term"
-    | "textbox"
-    | "time"
-    | "timer"
-    | "toolbar"
-    | "tooltip"
-    | "tree"
-    | "treegrid"
-    | "treeitem";
-  name: string;
-}
-
-interface OnLocator extends Locator {
-  expectAttribute?: ExpectAttribute;
-}
-
-interface ExpectAttribute {
-  name: string;
-  value: string;
-}
-
-interface HasLocator {
-  locator: Locator;
-}
-
-type ClickOn = HasLocator | string;
