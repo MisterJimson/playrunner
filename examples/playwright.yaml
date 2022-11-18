@@ -1,15 +1,15 @@
 # https://playwright.dev/docs/writing-tests#the-example-test
 flow:
-  goTo: 'https://playwright.dev/'
+  goTo: "https://playwright.dev/"
   expectTitle: Playwright
   onLocator:
     role: link
     name: Get started
     expectAttribute:
-        name: href
-        value: /docs/intro
+      name: href
+      value: /docs/intro
   clickOn:
     locator:
-        role: link
-        name: Get started
+      role: link
+      name: Get started
 expectUrl: .*intro
