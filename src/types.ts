@@ -87,13 +87,10 @@ export interface Locator {
   name: string;
 }
 
-export interface OnLocator extends Locator {
-  expectAttribute?: ExpectAttribute;
-}
-
 export interface ExpectAttribute {
   name: string;
   value: string;
+  locator: Locator;
 }
 
 export interface HasLocator {

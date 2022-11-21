@@ -20,10 +20,13 @@ flow:
   onLocator:                        # Locate an element
     role: link
     name: Get started
-    expectAttribute:                # Assert an attribute on the located element
-      name: href
-      value: /docs/intro
-  clickOn:                          # Locate and click on an element
+  expectAttribute:                  # Assert an attribute on the located element
+    name: href
+    value: /docs/intro
+    locator:
+      role: link
+      name: Get started
+  clickOn:                          # Click on the located element
     locator:
       role: link
       name: Get started

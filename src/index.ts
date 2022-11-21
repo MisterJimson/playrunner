@@ -1,10 +1,14 @@
-import { expect } from "@playwright/test";
 import { chromium } from "playwright";
 import fs from "fs";
-import { clickOn, expectTitle, goTo, onLocator, expectUrl } from "./commands";
+import {
+  clickOn,
+  expectTitle,
+  goTo,
+  expectUrl,
+  expectAttribute,
+} from "./commands";
 
 import { Command } from "commander";
-import figlet from "figlet";
 import yaml from "js-yaml";
 
 const program = new Command();
@@ -14,7 +18,6 @@ program
   .description("Run playwright tests from simple yaml flows");
 
 program
-
   .command("run")
   .description("Run a flow")
   .argument("<string>", "Flow file")
@@ -54,16 +57,16 @@ program
         await expectTitle(page, value);
       }
 
-      if (key === "onLocator") {
-        await onLocator(page, value);
-      }
-
       if (key === "clickOn") {
         await clickOn(page, value);
       }
 
       if (key === "expectUrl") {
         await expectUrl(page, value);
+      }
+
+      if (key === "expectAttribute") {
+        await expectAttribute(page, value);
       }
     }
     await browser.close();
