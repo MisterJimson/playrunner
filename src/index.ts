@@ -9,8 +9,6 @@ import yaml from "js-yaml";
 
 const program = new Command();
 
-console.log(figlet.textSync("Playrunner"));
-
 program
   .version("1.0.0")
   .description("Run playwright tests from simple yaml flows");
@@ -25,6 +23,9 @@ program
 
     // Load the flow from yaml into a javascript object using js-yaml
     let data = yaml.load(file);
+
+    // @ts-ignore TODO
+    console.log(`Running flow: ${data.description}`);
 
     // Start the browser and create a new page
     const browser = await chromium.launch({
