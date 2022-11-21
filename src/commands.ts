@@ -1,5 +1,4 @@
-import { expect } from "@playwright/test";
-import { Locator, Page } from "playwright";
+import { expect, Locator, Page } from "@playwright/test";
 import { ClickOn, HasLocator, OnLocator } from "./types";
 
 export const goTo = async (page: Page, value: any) => {
@@ -69,5 +68,5 @@ export const expectUrl = async (page: Page, value: any) => {
   if (typeof value !== "string") {
     throw new Error("expectUrl value must be a string");
   }
-  await expect(page).toHaveURL(RegExp(value as string));
+  await expect(page).toHaveURL(RegExp(value));
 };
