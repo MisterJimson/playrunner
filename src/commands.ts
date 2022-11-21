@@ -69,5 +69,5 @@ export const expectUrl = async (page: Page, value: any) => {
   if (typeof value !== "string") {
     throw new Error("expectUrl value must be a string");
   }
-  await expect(page).toHaveURL(RegExp(value as string));
+  await expect(page).toHaveURL(RegExp(value));
 };

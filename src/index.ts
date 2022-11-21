@@ -1,7 +1,7 @@
 import { expect } from "@playwright/test";
 import { chromium } from "playwright";
 import fs from "fs";
-import { clickOn, expectTitle, goTo, onLocator } from "./commands";
+import { clickOn, expectTitle, goTo, onLocator, expectUrl } from "./commands";
 
 import { Command } from "commander";
 import figlet from "figlet";
@@ -52,7 +52,7 @@ program
       }
 
       if (key === "expectUrl") {
-        await expect(page).toHaveURL(RegExp(value as string));
+        await expectUrl(page, value);
       }
     }
     await browser.close();
