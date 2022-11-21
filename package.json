@@ -1,8 +1,8 @@
 {
   "name": "playrunner",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "/dist/index.js",
   "scripts": {
     "dev": "npx tsc && node dist/index.js run",
     "build": "npx tsc",
@@ -11,6 +11,9 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "bin": {
+    "playrunner": "./dist/index.js"
+  },
   "dependencies": {
     "@playwright/test": "^1.28.0",
     "commander": "^9.4.1",

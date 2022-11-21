@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { chromium } from "playwright";
 import fs from "fs";
 import {
@@ -14,7 +16,7 @@ import yaml from "js-yaml";
 const program = new Command();
 
 program
-  .version("1.0.0")
+  .version("0.0.1")
   .description("Run playwright tests from simple yaml flows");
 
 program
