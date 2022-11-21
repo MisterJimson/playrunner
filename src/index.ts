@@ -25,6 +25,16 @@ program
     let data = yaml.load(file);
 
     // @ts-ignore TODO
+    if (!data.description) {
+      throw new Error("Flow must have a top level description:");
+    }
+
+    // @ts-ignore TODO
+    if (!data.flow) {
+      throw new Error("Flow must have a top level flow:");
+    }
+
+    // @ts-ignore TODO
     console.log(`Running flow: ${data.description}`);
 
     // Start the browser and create a new page

@@ -13,6 +13,7 @@ Try `npm run dev -- examples/playwright.yaml` to run the example flow.
 
 ```yaml
 # This flow recreates the example test from the Playwright docs https://playwright.dev/docs/writing-tests#the-example-test
+description: Homepage has Playwright in title and get started link linking to the intro page
 flow:
   goTo: "https://playwright.dev/"   # Navigate to a URL
   expectTitle: Playwright           # Check the page title, supports RegEx
