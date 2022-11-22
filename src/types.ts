@@ -100,3 +100,10 @@ export interface HasLocator {
 export type ClickOn = HasLocator | string;
 
 export type Locator = RoleLocator | string;
+
+export type ExpectText = ExpectTextWithLocator | string;
+
+export interface ExpectTextWithLocator {
+  text: string;
+  locator: Locator;
+}

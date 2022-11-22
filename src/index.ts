@@ -8,6 +8,7 @@ import {
   goTo,
   expectUrl,
   expectAttribute,
+  expectText,
 } from "./commands";
 
 import { Command } from "commander";
@@ -52,6 +53,8 @@ program
         await expectUrl(page, step.expectUrl);
       } else if (hasOwnProperty(step, "expectAttribute")) {
         await expectAttribute(page, step.expectAttribute);
+      } else if (hasOwnProperty(step, "expectText")) {
+        await expectText(page, step.expectText);
       } else {
         console.log(`Unknown step: ${step}`);
       }

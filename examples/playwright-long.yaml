@@ -19,3 +19,8 @@
     name: href
     value: /docs/test-cli
     locator: header+ p a
+- expectText: Playwright Test comes with a few built-in reporters for different needs and ability to provide custom reporters
+- expectText:
+    locator:
+      text: Playwright Test comes with a few built-in reporters for different needs and ability to provide custom reporters
+    text: Playwright Test comes with a few built-in reporters for different needs and ability to provide custom reporters

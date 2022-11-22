@@ -1,14 +1,23 @@
 import { expect, Locator } from "@playwright/test";
 import { Page } from "playwright";
-import { ClickOn, ExpectAttribute, HasLocator, RoleLocator } from "./types";
+import {
+  ClickOn,
+  ExpectAttribute,
+  ExpectTextWithLocator,
+  HasLocator,
+} from "./types";
 
 /// Take value from yaml input and convert to Locator
 export const getLocatorFromYaml = (page: Page, value: any): Locator => {
   if (typeof value === "string") {
     return page.locator(value);
   } else if (typeof value === "object") {
+    // TODO stop using `any` below this line and type this stuff
     if (value.hasOwnProperty("role") && value.hasOwnProperty("name")) {
       return page.getByRole(value.role, { name: value.name });
+    }
+    if (value.hasOwnProperty("text")) {
+      return page.getByText(value.text);
     }
   }
 
@@ -43,7 +52,6 @@ export const expectTitle = async (page: Page, value: any) => {
 export const expectAttribute = async (page: Page, value: any) => {
   // TODO needs better type assertion
   const expectAttributeDataObject = value as ExpectAttribute;
-
   if (typeof expectAttributeDataObject.name !== "string") {
     throw new Error("expectAttribute.name must be a string");
   }
@@ -56,6 +64,16 @@ export const expectAttribute = async (page: Page, value: any) => {
     expectAttributeDataObject.name,
     expectAttributeDataObject.value
   );
+};
+
+export const expectText = async (page: Page, value: any) => {
+  if (typeof value === "string") {
+    await expect(page.getByText(value)).toHaveText(RegExp(value));
+  } else if (typeof value === "object") {
+    const expectTextDataObject = value as ExpectTextWithLocator;
+    const locator = getLocatorFromYaml(page, expectTextDataObject.locator);
+    await expect(locator).toHaveText(RegExp(expectTextDataObject.text));
+  }
 };
 
 export const expectUrl = async (page: Page, value: any) => {
