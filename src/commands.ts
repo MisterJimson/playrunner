@@ -50,9 +50,6 @@ export const expectAttribute = async (page: Page, value: any) => {
   if (typeof expectAttributeDataObject.value !== "string") {
     throw new Error("expectAttribute.value must be a string");
   }
-  if (typeof expectAttributeDataObject.locator !== "object") {
-    throw new Error("expectAttribute.locator must be a object");
-  }
 
   const locator = getLocatorFromYaml(page, expectAttributeDataObject.locator);
   await expect(locator).toHaveAttribute(

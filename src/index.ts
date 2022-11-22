@@ -12,6 +12,7 @@ import {
 
 import { Command } from "commander";
 import yaml from "js-yaml";
+import { hasOwnProperty } from "./yaml-helpers";
 
 const program = new Command();
 
@@ -29,46 +30,30 @@ program
     // Load the flow from yaml into a javascript object using js-yaml
     let data = yaml.load(file);
 
-    // @ts-ignore TODO
-    if (!data.description) {
-      throw new Error("Flow must have a top level description:");
-    }
-
-    // @ts-ignore TODO
-    if (!data.flow) {
-      throw new Error("Flow must have a top level flow:");
-    }
-
-    // @ts-ignore TODO
-    console.log(`Running flow: ${data.description}`);
-
     // Start the browser and create a new page
     const browser = await chromium.launch({
       headless: false,
     }); // Or 'firefox' or 'webkit'.
     const page = await browser.newPage();
 
+    const steps = data as Object[];
+
     // Loop through the flow and execute the commands
-    // @ts-ignore TODO
-    for (const [key, value] of Object.entries(data.flow)) {
-      if (key === "goTo") {
-        await goTo(page, value);
-      }
-
-      if (key === "expectTitle") {
-        await expectTitle(page, value);
-      }
-
-      if (key === "clickOn") {
-        await clickOn(page, value);
-      }
-
-      if (key === "expectUrl") {
-        await expectUrl(page, value);
-      }
-
-      if (key === "expectAttribute") {
-        await expectAttribute(page, value);
+    for (const step of steps) {
+      if (hasOwnProperty(step, "description")) {
+        console.log(step.description);
+      } else if (hasOwnProperty(step, "goTo")) {
+        await goTo(page, step.goTo);
+      } else if (hasOwnProperty(step, "expectTitle")) {
+        await expectTitle(page, step.expectTitle);
+      } else if (hasOwnProperty(step, "clickOn")) {
+        await clickOn(page, step.clickOn);
+      } else if (hasOwnProperty(step, "expectUrl")) {
+        await expectUrl(page, step.expectUrl);
+      } else if (hasOwnProperty(step, "expectAttribute")) {
+        await expectAttribute(page, step.expectAttribute);
+      } else {
+        console.log(`Unknown step: ${step}`);
       }
     }
     await browser.close();

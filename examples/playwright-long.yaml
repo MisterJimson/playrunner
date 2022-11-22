@@ -13,3 +13,9 @@
       role: link
       name: Get started
 - expectUrl: .*intro
+- clickOn: "#html-test-reports+ p a"
+- expectUrl: .*test-reporters
+- expectAttribute:
+    name: href
+    value: /docs/test-cli
+    locator: header+ p a
