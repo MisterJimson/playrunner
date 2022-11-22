@@ -1,6 +1,19 @@
-import { expect } from "@playwright/test";
+import { expect, Locator } from "@playwright/test";
 import { Page } from "playwright";
-import { ClickOn, ExpectAttribute, HasLocator } from "./types";
+import { ClickOn, ExpectAttribute, HasLocator, RoleLocator } from "./types";
+
+/// Take value from yaml input and convert to Locator
+export const getLocatorFromYaml = (page: Page, value: any): Locator => {
+  if (typeof value === "string") {
+    return page.locator(value);
+  } else if (typeof value === "object") {
+    if (value.hasOwnProperty("role") && value.hasOwnProperty("name")) {
+      return page.getByRole(value.role, { name: value.name });
+    }
+  }
+
+  throw new Error(`Unable to create locator from yaml: ${value}`);
+};
 
 export const goTo = async (page: Page, value: any) => {
   if (typeof value !== "string") {
@@ -15,13 +28,7 @@ export const clickOn = async (page: Page, value: any) => {
   if (typeof value === "string") {
     await page.click(value);
   } else {
-    const locatorDataObject = (value as HasLocator).locator;
-    const locatorRole = locatorDataObject.role;
-    const locatorRoleName = locatorDataObject.name;
-
-    const locator = page.getByRole(locatorRole, {
-      name: locatorRoleName,
-    });
+    const locator = getLocatorFromYaml(page, (value as HasLocator).locator);
     await locator.click();
   }
 };
@@ -47,10 +54,7 @@ export const expectAttribute = async (page: Page, value: any) => {
     throw new Error("expectAttribute.locator must be a object");
   }
 
-  // Needs to be way more general use, support all locator options
-  const locator = page.getByRole(expectAttributeDataObject.locator.role, {
-    name: expectAttributeDataObject.locator.name,
-  });
+  const locator = getLocatorFromYaml(page, expectAttributeDataObject.locator);
   await expect(locator).toHaveAttribute(
     expectAttributeDataObject.name,
     expectAttributeDataObject.value

@@ -1,6 +1,6 @@
 //TODO May be able to pull this out of the Playwright Locator type with some type magic
 // instead of having to copy it here
-export interface Locator {
+export interface RoleLocator {
   role:
     | "alert"
     | "alertdialog"
@@ -98,3 +98,5 @@ export interface HasLocator {
 }
 
 export type ClickOn = HasLocator | string;
+
+export type Locator = RoleLocator | string;
