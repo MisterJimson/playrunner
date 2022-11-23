@@ -13,13 +13,17 @@
       role: link
       name: Get started
 - expectUrl: .*intro
+# clickOn using css selector
 - clickOn: "#html-test-reports+ p a"
 - expectUrl: .*test-reporters
+# locator using css selector
 - expectAttribute:
     name: href
     value: /docs/test-cli
     locator: header+ p a
+# expectText checking for text content, supports RegEx
 - expectText: Playwright Test comes with a few built-in reporters for different needs and ability to provide custom reporters
+# expectText checking for text content on a locator
 - expectText:
     locator:
       text: Playwright Test comes with a few built-in reporters for different needs and ability to provide custom reporters
