@@ -1,16 +1,17 @@
 {
   "name": "playrunner",
   "version": "0.0.1",
-  "description": "",
+  "description": "A user flow testing tool for websites based on Playwright",
   "main": "/dist/index.js",
+  "author": "Jason Rai <me@jasonrai.ca>",
+  "license": "MIT",
+  "homepage": "https://github.com/MisterJimson/playrunner",
   "scripts": {
     "dev": "npx tsc && node dist/index.js run",
     "build": "npx tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
   "bin": {
     "playrunner": "./dist/index.js"
   },
