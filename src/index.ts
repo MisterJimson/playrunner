@@ -14,6 +14,7 @@ import {
 import { Command } from "commander";
 import yaml from "js-yaml";
 import { hasOwnProperty } from "./yaml-helpers";
+import chalk from "chalk";
 
 const program = new Command();
 
@@ -42,7 +43,9 @@ program
     // Loop through the flow and execute the commands
     for (const step of steps) {
       if (hasOwnProperty(step, "description")) {
-        console.log(step.description);
+        console.log(
+          chalk.blue("Running flow") + ": " + chalk.green(step.description)
+        );
       } else if (hasOwnProperty(step, "goTo")) {
         await goTo(page, step.goTo);
       } else if (hasOwnProperty(step, "expectTitle")) {
@@ -56,11 +59,11 @@ program
       } else if (hasOwnProperty(step, "expectText")) {
         await expectText(page, step.expectText);
       } else {
-        console.log(`Unknown step: ${step}`);
+        console.log(chalk.red(`Unknown step: ${step}`));
       }
     }
     await browser.close();
-    console.log("Flow successfully completed");
+    console.log(chalk.blue("Flow successfully completed"));
   });
 
 program.parse();

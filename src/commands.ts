@@ -1,4 +1,5 @@
 import { expect, Locator } from "@playwright/test";
+import chalk from "chalk";
 import { Page } from "playwright";
 import {
   ClickOn,
@@ -29,6 +30,7 @@ export const goTo = async (page: Page, value: any) => {
     throw new Error("goTo value must be a string");
   }
   await page.goto(value);
+  logStepSuccess(`goTo ${value}`);
 };
 
 export const clickOn = async (page: Page, value: any) => {
@@ -36,9 +38,11 @@ export const clickOn = async (page: Page, value: any) => {
 
   if (typeof value === "string") {
     await page.click(value);
+    logStepSuccess(`clickOn ${value}`);
   } else {
     const locator = getLocatorFromYaml(page, (value as HasLocator).locator);
     await locator.click();
+    logStepSuccess(`clickOn`);
   }
 };
 
@@ -47,6 +51,7 @@ export const expectTitle = async (page: Page, value: any) => {
     throw new Error("expectTitle value must be a string");
   }
   await expect(page).toHaveTitle(RegExp(value));
+  logStepSuccess(`expectTitle ${value}`);
 };
 
 export const expectAttribute = async (page: Page, value: any) => {
@@ -64,15 +69,20 @@ export const expectAttribute = async (page: Page, value: any) => {
     expectAttributeDataObject.name,
     expectAttributeDataObject.value
   );
+  logStepSuccess(
+    `expectAttribute ${expectAttributeDataObject.name} ${expectAttributeDataObject.value}`
+  );
 };
 
 export const expectText = async (page: Page, value: any) => {
   if (typeof value === "string") {
     await expect(page.getByText(value)).toHaveText(RegExp(value));
+    logStepSuccess(`expectText ${value}`);
   } else if (typeof value === "object") {
     const expectTextDataObject = value as ExpectTextWithLocator;
     const locator = getLocatorFromYaml(page, expectTextDataObject.locator);
     await expect(locator).toHaveText(RegExp(expectTextDataObject.text));
+    logStepSuccess(`expectText ${expectTextDataObject.text}`);
   }
 };
 
@@ -81,4 +91,9 @@ export const expectUrl = async (page: Page, value: any) => {
     throw new Error("expectUrl value must be a string");
   }
   await expect(page).toHaveURL(RegExp(value));
+  logStepSuccess(`expectUrl ${value}`);
+};
+
+const logStepSuccess = (message: string) => {
+  console.log(chalk.blue("Step: ") + chalk.green(`${message} ✅`));
 };

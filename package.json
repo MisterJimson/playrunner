@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@playwright/test": "^1.28.0",
+    "chalk": "4.1.2",
     "commander": "^9.4.1",
     "figlet": "^1.5.2",
     "js-yaml": "^4.1.0",
