@@ -1,4 +1,7 @@
 # Playrunner
+[![npm version](https://badge.fury.io/js/playrunner.svg)](https://badge.fury.io/js/playrunner)
+![ci](https://github.com/MisterJimson/playrunner/actions/workflows/node.js.yml/badge.svg?branch=main)
+
 A user flow testing tool for websites based on [Playwright](https://playwright.dev/).
 
 Inspired by [fluttium](https://github.com/wolfenrain/fluttium)
