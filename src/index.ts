@@ -33,9 +33,7 @@ program
     let data = yaml.load(file);
 
     // Start the browser and create a new page
-    const browser = await chromium.launch({
-      headless: false,
-    }); // Or 'firefox' or 'webkit'.
+    const browser = await chromium.launch(); // Or 'firefox' or 'webkit'.
     const page = await browser.newPage();
 
     const steps = data as Object[];
