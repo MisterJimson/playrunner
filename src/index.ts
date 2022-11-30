@@ -9,6 +9,7 @@ import {
   expectUrl,
   expectAttribute,
   expectText,
+  fill,
 } from "./commands";
 
 import { Command } from "commander";
@@ -56,6 +57,8 @@ program
         await expectAttribute(page, step.expectAttribute);
       } else if (hasOwnProperty(step, "expectText")) {
         await expectText(page, step.expectText);
+      } else if (hasOwnProperty(step, "fill")) {
+        await fill(page, step.fill);
       } else {
         console.log(chalk.red(`Unknown step: ${step}`));
       }

@@ -97,9 +97,47 @@ export interface HasLocator {
   locator: Locator;
 }
 
+export interface LabelLocator {
+  label: string;
+}
+
+export interface PlaceholderLocator {
+  placeholder: string;
+}
+
+export interface TextLocator {
+  text: string;
+}
+
+export interface AltTextLocator {
+  altText: string;
+  exact?: boolean;
+}
+
+export interface TitleLocator {
+  title: string;
+}
+
+export interface TestIdLocator {
+  testId: string;
+}
+
 export type ClickOn = HasLocator | string;
 
-export type Locator = RoleLocator | string;
+export interface Fill {
+  text: string;
+  locator: Locator;
+}
+
+export type Locator =
+  | RoleLocator
+  | LabelLocator
+  | PlaceholderLocator
+  | TextLocator
+  | AltTextLocator
+  | TitleLocator
+  | TestIdLocator
+  | string;
 
 export type ExpectText = ExpectTextWithLocator | string;
 
