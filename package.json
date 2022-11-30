@@ -1,6 +1,6 @@
 {
   "name": "playrunner",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A user flow testing tool for websites based on Playwright",
   "main": "/dist/index.js",
   "author": "Jason Rai <me@jasonrai.ca>",
