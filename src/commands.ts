@@ -5,6 +5,7 @@ import {
   ClickOn,
   ExpectAttribute,
   ExpectTextWithLocator,
+  Fill,
   HasLocator,
 } from "./types";
 
@@ -19,6 +20,23 @@ export const getLocatorFromYaml = (page: Page, value: any): Locator => {
     }
     if (value.hasOwnProperty("text")) {
       return page.getByText(value.text);
+    }
+    if (value.hasOwnProperty("label")) {
+      return page.getByLabel(value.label);
+    }
+    if (value.hasOwnProperty("placeholder")) {
+      return page.getByPlaceholder(value.placeholder);
+    }
+    if (value.hasOwnProperty("altText")) {
+      return page.getByAltText(value.altText, {
+        exact: value.exact ?? undefined,
+      });
+    }
+    if (value.hasOwnProperty("title")) {
+      return page.getByTitle(value.title);
+    }
+    if (value.hasOwnProperty("testId")) {
+      return page.getByTestId(value.testId);
     }
   }
 
@@ -44,6 +62,14 @@ export const clickOn = async (page: Page, value: any) => {
     await locator.click();
     logStepSuccess(`clickOn`);
   }
+};
+
+export const fill = async (page: Page, value: any) => {
+  const fillDataObject = value as Fill;
+
+  const locator = getLocatorFromYaml(page, fillDataObject.locator);
+  await locator.fill(fillDataObject.text);
+  logStepSuccess(`fill`);
 };
 
 export const expectTitle = async (page: Page, value: any) => {

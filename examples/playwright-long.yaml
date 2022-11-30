@@ -1,17 +1,22 @@
 # This flow recreates the example test from the Playwright docs https://playwright.dev/docs/writing-tests#the-example-test
 - description: homepage has Playwright in title and get started link linking to the intro page
+# visit a URL
 - goTo: "https://playwright.dev/"
+# check browser tab title, supports RegEx
 - expectTitle: Playwright
+# Check a specific attibute on a located element
 - expectAttribute:
     name: href
     value: /docs/intro
     locator:
       role: link
       name: Get started
+# Click on a located element
 - clickOn:
     locator:
       role: link
       name: Get started
+# Check the URL of the current page, supports RegEx
 - expectUrl: .*intro
 # clickOn using css selector
 - clickOn: "#html-test-reports+ p a"
@@ -28,3 +33,27 @@
     locator:
       text: Playwright Test comes with a few built-in reporters for different needs and ability to provide custom reporters
     text: Playwright Test comes with a few built-in reporters for different needs and ability to provide custom reporters
+- goTo: "https://playwright.dev/docs/locators"
+- clickOn:
+    locator:
+      role: button
+      name: Sign in
+- fill:
+    text: secret
+    locator:
+      label: Password
+- fill:
+    text: playwright@microsoft.com
+    locator:
+      placeholder: name@example.com
+- clickOn:
+    locator:
+      altText: playwright logo
+      exact: true
+- expectText:
+    locator:
+      title: Issues count
+    text: 25 issues
+- clickOn:
+    locator:
+      testId: directions
